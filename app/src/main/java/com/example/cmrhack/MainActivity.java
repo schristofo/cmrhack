@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
                 Bitmap myBitmap = selectedImage.copy(Bitmap.Config.ARGB_8888, true);
-                for(int i=0;i<myBitmap.getWidth();i++){
+                for(int i=0;i<myBitmap.getHeight();i++){
                     myBitmap.setPixel(10, i,Color.argb(254,0,0,0));
                 }
 
