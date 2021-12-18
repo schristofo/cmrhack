@@ -32,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 3);
+                Intent chooser = Intent.createChooser(photoPickerIntent, "Choose a Picture");
+                startActivityForResult(chooser, 3);
             }
         });
     }
