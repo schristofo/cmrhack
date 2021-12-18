@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.view.View;
 import android.media.ImageReader;
@@ -37,19 +42,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
+        int red = 0;
         if(reqCode==3 && resultCode == RESULT_OK){
+            ImageView imageView = (ImageView) findViewById(R.id.imageView3);
             try {
+
                 Uri imageUri = data.getData();
-                InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                InputStream imageStream = this.getContentResolver().openInputStream(imageUri);
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                ImageView imageView = (ImageView) findViewById(R.id.imageView3);
-                imageView.setImageBitmap(selectedImage);
-                imageView.setMaxWidth(250);
-                imageView.setMaxHeight(250);
-            }catch(Exception E){
-                E.printStackTrace();
+
+                Bitmap myBitmap = selectedImage.copy(Bitmap.Config.ARGB_8888, true);
+                for(int i=0;i<myBitmap.getWidth();i++){
+                    myBitmap.setPixel(10, i,Color.argb(254,0,0,0));
+                }
+
+                imageView.setImageBitmap(myBitmap);
+                MediaStore.Images.Media.insertImage(this.getContentResolver(), myBitmap,"TempImage", "Best Description Ever");
+            }catch(Exception E) {
+                Toast.makeText(this, "Couldn't load image",Toast.LENGTH_LONG).show();
             }
-            Toast.makeText(this, "Couldn't load image 1!",Toast.LENGTH_LONG).show();
+
         }else{
             Toast.makeText(this, "Couldn't load image",Toast.LENGTH_LONG).show();
         }
