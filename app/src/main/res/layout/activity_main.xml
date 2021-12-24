@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="cmrhack"
+        android:text="@string/cmrhack"
         android:textColor="#5C6363"
-        android:textSize="35dp"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,20 +28,34 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="340dp"
         android:backgroundTint="#39B554"
-        android:text="Pick Picture"
+        android:text="@string/pick_picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/logoView"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:alpha="0.9"
+        android:contentDescription="@string/applogo"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/cmrhack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="128dp"
+        android:contentDescription="@string/imagepreview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

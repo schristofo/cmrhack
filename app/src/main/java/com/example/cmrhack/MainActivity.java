@@ -5,17 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Button;
 import android.view.View;
-import android.media.ImageReader;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         int red = 0;
         if(reqCode==3 && resultCode == RESULT_OK){
-            ImageView imageView = (ImageView) findViewById(R.id.imageView3);
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
             try {
 
                 Uri imageUri = data.getData();

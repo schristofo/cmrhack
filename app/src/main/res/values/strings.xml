@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cmrhack</string>
+    <string name="pick_picture">Pick Picture</string>
+    <string name="applogo">AppLogo</string>
+    <string name="cmrhack">cmrhack</string>
+    <string name="imagepreview">ImagePreview</string>
 </resources>
