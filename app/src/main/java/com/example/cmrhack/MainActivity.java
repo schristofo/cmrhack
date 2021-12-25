@@ -110,16 +110,17 @@ public class MainActivity extends AppCompatActivity {
                 }
                 bm = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
 
-                setStrip(300, 310, 7, 7);
-                setStrip(515, 527, 7, 5);
-                setStrip(935, 946, 7, 5);
-                setStrip(979, 991, 7, 5);
-                setStrip(1020,1030, 7, 5);
-                setStrip(1200,1211, 7, 5);
-                setStrip(1280,1291, 7, 5);
-                setStrip(1391,1403, 7, 10);
-                setStrip(1455,1468, 7, 5);
-                setStrip(1482,1495, 7, 5);
+                setStrip(300, 310, 4, 4);
+                setStrip(515, 527, 4, 4);
+                setStrip(570, 577, 4, 4);
+                setStrip(935, 946, 4, 4);
+                setStrip(979, 991, 4, 4);
+                setStrip(1020,1030, 4, 4);
+                setStrip(1200,1211, 4, 4);
+                setStrip(1280,1291, 4, 4);
+                setStrip(1391,1403, 4, 4);
+                setStrip(1455,1468, 4, 4);
+                setStrip(1482,1495, 4, 4);
 
                 // Preview image in the image view
                 imageView.setImageBitmap(bm);
@@ -166,17 +167,17 @@ public class MainActivity extends AppCompatActivity {
                 b1 += bm.getPixel(x1-i,y) & 0xff;
                 b2 += bm.getPixel(x2+i,y) & 0xff;
             }
-            r1 = r1/neigh;
-            r2 = r2/neigh;
-            g1 = g1/neigh;
-            g2 = g2/neigh;
-            b1 = b1/neigh;
-            b2 = b2/neigh;
+            float fr1 = (float)r1/neigh;
+            float fr2 = (float)r2/neigh;
+            float fg1 = (float)g1/neigh;
+            float fg2 = (float)g2/neigh;
+            float fb1 = (float)b1/neigh;
+            float fb2 = (float)b2/neigh;
 
             for(int x=x1; x<x2+1; x++) {
-                r = (int) (r1 + (x - x1 + 1) * ((r2 - r1) / (x2 - x1)) - rand + 2 * rand * Math.random());
-                g = (int) (g1 + (x - x1 + 1) * ((g2 - g1) / (x2 - x1)) - rand + 2 * rand * Math.random());
-                b = (int) (b1 + (x - x1 + 1) * ((b2 - b1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+                r = (int) (fr1 + (x - x1 + 1) * ((fr2 - fr1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+                g = (int) (fg1 + (x - x1 + 1) * ((fg2 - fg1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+                b = (int) (fb1 + (x - x1 + 1) * ((fb2 - fb1) / (x2 - x1)) - rand + 2 * rand * Math.random());
                 if (r < 0) r = 0;
                 if (r > 255) r = 254;
                 if (g < 0) g = 0;
