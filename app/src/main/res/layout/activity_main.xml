@@ -24,9 +24,9 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="340dp"
+        android:layout_width="149dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="280dp"
         android:backgroundTint="#39B554"
         android:text="@string/pick_picture"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
         android:id="@+id/imageView"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginBottom="60dp"
         android:contentDescription="@string/imagepreview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

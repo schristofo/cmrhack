@@ -123,12 +123,13 @@ public class MainActivity extends AppCompatActivity {
                 setStrip(1482,1495, 4, 4);
 
                 // Preview image in the image view
-                imageView.setImageBitmap(bm);
+                // imageView.setImageBitmap(bm);
 
                 // Generate new image title based on the date captured
                 String name = "IMG_" + df.format(currentDate);
                 // Save image
                 MediaStore.Images.Media.insertImage(this.getContentResolver(), bm, name, "A description");
+                Toast.makeText(this, "Image converted successfully", Toast.LENGTH_LONG).show();
             } catch (Exception E) {
                 Toast.makeText(this, "Couldn't load image", Toast.LENGTH_LONG).show();
             }
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 b1 += bm.getPixel(x1-i,y) & 0xff;
                 b2 += bm.getPixel(x2+i,y) & 0xff;
             }
+
             float fr1 = (float)r1/neigh;
             float fr2 = (float)r2/neigh;
             float fg1 = (float)g1/neigh;
