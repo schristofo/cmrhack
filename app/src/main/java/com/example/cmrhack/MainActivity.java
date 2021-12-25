@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     ImageView imageView;
     Bitmap bm;
+    boolean isGreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +38,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initial color of button is green
+        isGreen = true;
+
         // Initialize the default image preview
         imageView = (ImageView) findViewById(R.id.imageView);
 
         // Initialize button
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+
+                // Change button color
+                if(isGreen == true) {
+                    button.setBackgroundColor(Color.argb(230, 209, 0, 0));
+                    isGreen = false;
+                } else {
+                    button.setBackgroundColor(Color.argb(239, 51, 200, 123));
+                    isGreen = true;
+                }
+
                 // Intent: used to perform an action on another app - use ACTION_GET_CONTENT and image/* to get images
                 Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 photoPickerIntent.setType("image/*");
@@ -151,26 +164,32 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setStrip(int x1, int x2, int rand, int neigh)
     {
+        // For each row
         for(int y=0; y<imgWidth; y++){
+
+            // Left neighbors' RGB average (r1,g1,b1) - Right neighbors' RGB average (r2,g2,b2)
             int r1 = 0;
             int r2 = 0;
             int g1 = 0;
             int g2 = 0;
             int b1 = 0;
             int b2 = 0;
+            // Final RGB values of the pixel
             int r;
             int g;
             int b;
 
+            // For <neigh> neighbors calculate the average value
             for(int i=0; i<neigh; i++){
+                // Left neighborhood
                 r1 += (bm.getPixel(x1-i,y) >> 16) & 0xff;
-                r2 += (bm.getPixel(x2+i,y) >> 16) & 0xff;
                 g1 += (bm.getPixel(x1-i,y) >> 8) & 0xff;
-                g2 += (bm.getPixel(x2+i,y) >> 8) & 0xff;
                 b1 += bm.getPixel(x1-i,y) & 0xff;
+                // Right neighborhood
+                r2 += (bm.getPixel(x2+i,y) >> 16) & 0xff;
+                g2 += (bm.getPixel(x2+i,y) >> 8) & 0xff;
                 b2 += bm.getPixel(x2+i,y) & 0xff;
             }
-
             float fr1 = (float)r1/neigh;
             float fr2 = (float)r2/neigh;
             float fg1 = (float)g1/neigh;
@@ -178,10 +197,14 @@ public class MainActivity extends AppCompatActivity {
             float fb1 = (float)b1/neigh;
             float fb2 = (float)b2/neigh;
 
+            // For each pixel inside the strip
             for(int x=x1; x<x2+1; x++) {
+                // Implement linear interpolation and add a random factor
                 r = (int) (fr1 + (x - x1 + 1) * ((fr2 - fr1) / (x2 - x1)) - rand + 2 * rand * Math.random());
                 g = (int) (fg1 + (x - x1 + 1) * ((fg2 - fg1) / (x2 - x1)) - rand + 2 * rand * Math.random());
                 b = (int) (fb1 + (x - x1 + 1) * ((fb2 - fb1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+
+                // Keep values inside the limits - prevent overflow
                 if (r < 0) r = 0;
                 if (r > 255) r = 254;
                 if (g < 0) g = 0;
@@ -189,7 +212,8 @@ public class MainActivity extends AppCompatActivity {
                 if (b < 0) b = 0;
                 if (b > 255) b = 254;
 
-                bm.setPixel(x, y, Color.argb(254, r, g, b));
+                // Set the RGB value to the pixel
+                bm.setPixel(x, y, Color.argb(255, r, g, b));
             }
         }
     }
