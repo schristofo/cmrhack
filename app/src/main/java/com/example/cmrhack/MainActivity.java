@@ -18,14 +18,17 @@ import android.graphics.Matrix;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
     int SELECT_PICTURE = 200;
+    int imgWidth;
+    int imgHeight;
     Button button;
     ImageView imageView;
+    Bitmap bm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
                 options.inMutable = true;
                 Bitmap myBitmap = BitmapFactory.decodeStream(imageStream, null, options);
+                imgWidth = myBitmap.getWidth();
+                imgHeight = myBitmap.getHeight();
 
                 // Close the InputStream
                 imageStream.close();
@@ -103,14 +108,18 @@ public class MainActivity extends AppCompatActivity {
                         matrix.postRotate(270);
                         break;
                 }
-                Bitmap bm = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
+                bm = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(), matrix, true);
 
-                // Use for testing only
-//                for(int y=0;y<bm.getHeight();y++){
-//                    bm.setPixel(100,y,Color.argb(254,254,254,254));
-//                    bm.setPixel(101,y,Color.argb(254,254,254,254));
-//                    bm.setPixel(102,y,Color.argb(254,254,254,254));
-//                }
+                setStrip(300, 310, 7, 7);
+                setStrip(515, 527, 7, 5);
+                setStrip(935, 946, 7, 5);
+                setStrip(979, 991, 7, 5);
+                setStrip(1020,1030, 7, 5);
+                setStrip(1200,1211, 7, 5);
+                setStrip(1280,1291, 7, 5);
+                setStrip(1391,1403, 7, 10);
+                setStrip(1455,1468, 7, 5);
+                setStrip(1482,1495, 7, 5);
 
                 // Preview image in the image view
                 imageView.setImageBitmap(bm);
@@ -125,6 +134,58 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             Toast.makeText(this, "Action aborted", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     Eliminate vertical strip of hot pixels in an image.
+     @param x1 horizontal coordinate of the first pixel (left) of the vertical strip range
+     @param x2 horizontal coordinate of the last pixel (right) of the vertical strip range
+     @param rand random permutation to be applied in every pixel of the strip
+     @param neigh number of strip's neighbor pixels that will be taken into account
+     @return void
+     */
+    public void setStrip(int x1, int x2, int rand, int neigh)
+    {
+        for(int y=0; y<imgWidth; y++){
+            int r1 = 0;
+            int r2 = 0;
+            int g1 = 0;
+            int g2 = 0;
+            int b1 = 0;
+            int b2 = 0;
+            int r;
+            int g;
+            int b;
+
+            for(int i=0; i<neigh; i++){
+                r1 += (bm.getPixel(x1-i,y) >> 16) & 0xff;
+                r2 += (bm.getPixel(x2+i,y) >> 16) & 0xff;
+                g1 += (bm.getPixel(x1-i,y) >> 8) & 0xff;
+                g2 += (bm.getPixel(x2+i,y) >> 8) & 0xff;
+                b1 += bm.getPixel(x1-i,y) & 0xff;
+                b2 += bm.getPixel(x2+i,y) & 0xff;
+            }
+            r1 = r1/neigh;
+            r2 = r2/neigh;
+            g1 = g1/neigh;
+            g2 = g2/neigh;
+            b1 = b1/neigh;
+            b2 = b2/neigh;
+
+            for(int x=x1; x<x2+1; x++) {
+                r = (int) (r1 + (x - x1 + 1) * ((r2 - r1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+                g = (int) (g1 + (x - x1 + 1) * ((g2 - g1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+                b = (int) (b1 + (x - x1 + 1) * ((b2 - b1) / (x2 - x1)) - rand + 2 * rand * Math.random());
+                if (r < 0) r = 0;
+                if (r > 255) r = 254;
+                if (g < 0) g = 0;
+                if (g > 255) g = 254;
+                if (b < 0) b = 0;
+                if (b > 255) b = 254;
+
+                bm.setPixel(x, y, Color.argb(254, r, g, b));
+            }
         }
     }
 }
