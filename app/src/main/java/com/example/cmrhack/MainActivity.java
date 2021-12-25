@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.view.View;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.exifinterface.media.ExifInterface;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize button
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 // Intent: used to perform an action on another app - use ACTION_GET_CONTENT and image/* to get images
