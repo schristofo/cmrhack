@@ -30,16 +30,12 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     ImageView imageView;
     Bitmap bm;
-    boolean isGreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize main Application view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Initial color of button is green
-        isGreen = true;
 
         // Initialize the default image preview
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -49,15 +45,6 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Change button color
-                if(isGreen == true) {
-                    button.setBackgroundColor(Color.argb(230, 209, 0, 0));
-                    isGreen = false;
-                } else {
-                    button.setBackgroundColor(Color.argb(239, 51, 200, 123));
-                    isGreen = true;
-                }
 
                 // Intent: used to perform an action on another app - use ACTION_GET_CONTENT and image/* to get images
                 Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
